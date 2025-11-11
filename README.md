@@ -19,6 +19,8 @@ This project showcases professional development standards including type-safe AP
 **Backend**
 - Express.js with TypeScript
 - MongoDB with Mongoose ODM
+- JWT authentication with refresh tokens
+- TOTP-based two-factor authentication
 - Zod for runtime validation
 - Helmet for security headers
 - CORS and Morgan middleware
@@ -39,6 +41,8 @@ This project showcases professional development standards including type-safe AP
 - Delete todos
 
 **Advanced Capabilities**
+- User authentication with JWT tokens
+- Optional two-factor authentication (2FA) with TOTP
 - Optimistic UI updates for instant feedback
 - Dark mode support
 - Keyboard shortcuts (N for new todo, Esc to close)
@@ -112,6 +116,8 @@ NODE_ENV=development
 PORT=5000
 MONGODB_URI=mongodb://admin:admin123@localhost:27017/todoapp?authSource=admin
 CORS_ORIGIN=http://localhost:3000
+JWT_SECRET=your-super-secret-jwt-key-change-in-production
+JWT_REFRESH_SECRET=your-super-secret-refresh-key-change-in-production
 ```
 
 4. Start development servers:
@@ -119,11 +125,24 @@ CORS_ORIGIN=http://localhost:3000
 pnpm dev
 ```
 
-The application will be available at `http://localhost:3000`
+The application will be available at `http://localhost:3000`. After registering, users can optionally enable two-factor authentication in their account settings for enhanced security.
 
 ## API Documentation
 
-### Endpoints
+### Authentication Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/signup` | Register new user |
+| POST | `/api/auth/login` | User login |
+| POST | `/api/auth/login/2fa` | Verify 2FA code during login |
+| POST | `/api/auth/refresh` | Refresh access token |
+| GET | `/api/auth/me` | Get current user info |
+| POST | `/api/auth/2fa/setup` | Setup 2FA (returns QR code) |
+| POST | `/api/auth/2fa/verify` | Enable 2FA after setup |
+| POST | `/api/auth/2fa/disable` | Disable 2FA |
+
+### Todo Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
@@ -135,22 +154,49 @@ The application will be available at `http://localhost:3000`
 
 ### Example Usage
 
+**Authentication:**
+
+Register user:
+```bash
+curl -X POST http://localhost:5000/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"name": "John Doe", "email": "john@example.com", "password": "password123"}'
+```
+
+Login:
+```bash
+curl -X POST http://localhost:5000/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email": "john@example.com", "password": "password123"}'
+```
+
+Setup 2FA:
+```bash
+curl -X POST http://localhost:5000/api/auth/2fa/setup \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN"
+```
+
+**Todos:**
+
 Create a todo:
 ```bash
 curl -X POST http://localhost:5000/api/todos \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{"title": "Task name", "description": "Task details"}'
 ```
 
 Get all todos:
 ```bash
-curl http://localhost:5000/api/todos
+curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  http://localhost:5000/api/todos
 ```
 
 Toggle status:
 ```bash
 curl -X PATCH http://localhost:5000/api/todos/<id>/done \
   -H "Content-Type: application/json" \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
   -d '{"done": true}'
 ```
 
