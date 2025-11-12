@@ -46,7 +46,7 @@ The kanban approach helps users organize tasks by workflow stage, not just compl
 
 ## 🎥 Demo Video
 
-[YOUR GOOGLE DRIVE LINK HERE]
+https://drive.google.com/file/d/1EkBWp5K3Q_BruQoeSL4dPAcWF2VR_yfJ/view?usp=sharing
 
 ---
 
