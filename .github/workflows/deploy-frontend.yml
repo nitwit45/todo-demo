@@ -1,0 +1,104 @@
+name: Deploy Frontend to Vercel
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/client/**'
+      - 'packages/**'
+      - '.github/workflows/deploy-frontend.yml'
+  workflow_dispatch:
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build client
+        working-directory: apps/client
+        run: pnpm build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.CLOUDFLARE_TUNNEL_URL }}
+
+      - name: Pull Vercel Environment Information
+        working-directory: apps/client
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project Artifacts
+        working-directory: apps/client
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.CLOUDFLARE_TUNNEL_URL }}
+
+      - name: Deploy to Vercel Production
+        id: deploy
+        working-directory: apps/client
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "✅ Deployed to: $DEPLOYMENT_URL"
+
+      - name: Verify Deployment
+        run: |
+          sleep 10
+          DEPLOYMENT_URL="${{ steps.deploy.outputs.url }}"
+          
+          echo "🔍 Checking frontend at $DEPLOYMENT_URL"
+          
+          for i in {1..5}; do
+            if curl -f -s "$DEPLOYMENT_URL" > /dev/null; then
+              echo "✅ Frontend is accessible!"
+              exit 0
+            fi
+            echo "⏳ Waiting for frontend to be ready... (attempt $i/5)"
+            sleep 5
+          done
+          
+          echo "❌ Frontend verification failed"
+          exit 1
+
+      - name: Update CORS on Backend
+        run: |
+          echo "📝 Note: Ensure backend CORS settings include:"
+          echo "   - ${{ steps.deploy.outputs.url }}"
+          echo "   - https://todo-deploy-blond.vercel.app"
+
+      - name: Deployment Summary
+        if: success()
+        run: |
+          echo "🎉 Frontend Deployment Successful!"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+          echo "🔗 Production URL: ${{ steps.deploy.outputs.url }}"
+          echo "🔗 Backend API: ${{ secrets.CLOUDFLARE_TUNNEL_URL }}"
+          echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+
+      - name: Notify Failure
+        if: failure()
+        run: |
+          echo "❌ Frontend deployment failed!"
+          exit 1
+

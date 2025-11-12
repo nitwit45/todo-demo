@@ -1,6 +1,6 @@
 {
   "name": "hiring-fullstack-todo",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Modern full-stack TODO application with Next.js, Express, and MongoDB",
   "scripts": {
@@ -49,4 +49,3 @@
   },
   "packageManager": "pnpm@8.15.0"
 }
-

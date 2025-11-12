@@ -1,0 +1,34 @@
+[Unit]
+Description=Todo App Backend API
+After=network.target mongodb.service
+Wants=mongodb.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/todo/todo-demo/apps/server
+Environment="NODE_ENV=production"
+Environment="PORT=5003"
+Environment="MONGODB_URI=mongodb://admin:admin123@localhost:27017/todoapp?authSource=admin"
+Environment="CORS_ORIGIN=https://todo-deploy-blond.vercel.app,https://todo-deploy-ia113379r-nitwit45s-projects.vercel.app,https://todo-deploy-q34ni3tm9-nitwit45s-projects.vercel.app"
+Environment="JWT_SECRET=your-super-secret-jwt-key-change-this-in-production"
+Environment="JWT_REFRESH_SECRET=your-super-secret-refresh-key-change-this-too"
+
+# Start the production server
+ExecStart=/usr/bin/node /opt/todo/todo-demo/apps/server/dist/index.js
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# Logging
+StandardOutput=append:/var/log/todo-backend.log
+StandardError=append:/var/log/todo-backend-error.log
+
+# Security
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,85 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/server/**'
+      - 'packages/**'
+      - '.github/workflows/deploy-backend.yml'
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: Deploy Backend to Server
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SERVER_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy Backend
+        run: |
+          ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_HOST }} << 'ENDSSH'
+            set -e
+            
+            echo "📦 Pulling latest code..."
+            cd /opt/todo/todo-demo
+            git fetch origin
+            git reset --hard origin/main
+            
+            echo "📥 Installing dependencies..."
+            pnpm install --frozen-lockfile
+            
+            echo "🔨 Building server..."
+            cd apps/server
+            pnpm build
+            
+            echo "♻️  Restarting backend service..."
+            sudo systemctl restart todo-backend
+            
+            echo "✅ Backend deployment complete!"
+            
+            # Wait a bit and check status
+            sleep 3
+            sudo systemctl status todo-backend --no-pager || true
+          ENDSSH
+
+      - name: Verify Deployment
+        run: |
+          sleep 5
+          HEALTH_URL="${{ secrets.CLOUDFLARE_TUNNEL_URL }}/health"
+          echo "🔍 Checking backend health at $HEALTH_URL"
+          
+          for i in {1..5}; do
+            if curl -f -s "$HEALTH_URL" > /dev/null; then
+              echo "✅ Backend is healthy!"
+              curl -s "$HEALTH_URL" | jq .
+              exit 0
+            fi
+            echo "⏳ Waiting for backend to be ready... (attempt $i/5)"
+            sleep 5
+          done
+          
+          echo "❌ Backend health check failed"
+          exit 1
+
+      - name: Notify Success
+        if: success()
+        run: |
+          echo "✅ Backend deployed successfully to ${{ secrets.SERVER_HOST }}"
+          echo "🔗 Available at: ${{ secrets.CLOUDFLARE_TUNNEL_URL }}"
+
+      - name: Notify Failure
+        if: failure()
+        run: |
+          echo "❌ Backend deployment failed!"
+          exit 1
+

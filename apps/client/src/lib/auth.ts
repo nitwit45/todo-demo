@@ -27,9 +27,9 @@ export const clearTokens = () => {
 export const authFetch = async (url: string, options: RequestInit = {}) => {
   const token = getAccessToken();
   
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
-    ...options.headers,
+    ...(options.headers as Record<string, string>),
   };
 
   if (token) {
@@ -46,7 +46,10 @@ export const authFetch = async (url: string, options: RequestInit = {}) => {
     const refreshed = await refreshAccessToken();
     if (refreshed) {
       // Retry the request with new token
-      headers.Authorization = `Bearer ${getAccessToken()}`;
+      const newToken = getAccessToken();
+      if (newToken) {
+        headers.Authorization = `Bearer ${newToken}`;
+      }
       response = await fetch(`${API_URL}${url}`, {
         ...options,
         headers,

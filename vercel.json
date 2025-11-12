@@ -1,8 +1,13 @@
 {
+<<<<<<< HEAD
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm build:client",
   "devCommand": "pnpm dev:client",
+=======
+  "installCommand": "npm install -g pnpm@8 && pnpm install --filter client...",
+  "buildCommand": "pnpm --filter client build",
+  "devCommand": "pnpm --filter client dev",
+>>>>>>> d272c6d53576c6753ab4ed713caf3181e09522c9
   "outputDirectory": "apps/client/.next",
   "framework": "nextjs"
 }
-

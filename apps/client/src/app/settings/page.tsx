@@ -241,7 +241,7 @@ function SettingsPageContent() {
             <div className="space-y-4">
               <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900 rounded-lg p-4">
                 <p className="text-sm text-green-800 dark:text-green-200">
-                  Your account is protected with two-factor authentication. You'll need to enter a code from your authenticator app when signing in.
+                  Your account is protected with two-factor authentication. You&apos;ll need to enter a code from your authenticator app when signing in.
                 </p>
               </div>
               <Button variant="destructive" onClick={handleDisable2FA} disabled={isLoading}>
