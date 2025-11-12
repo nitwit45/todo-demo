@@ -75,3 +75,4 @@ echo "🔗 Frontend: Check Vercel dashboard or $DEPLOYMENT_URL"
 echo ""
 echo "💡 To deploy again, just run: ./deployment/manual-deploy.sh"
 
+
