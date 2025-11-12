@@ -9,14 +9,14 @@ export const connectDatabase = async (): Promise<void> => {
 
     await mongoose.connect(mongoUri);
 
-    console.log("✅ MongoDB connected successfully");
+    console.log("MongoDB connected successfully");
 
     mongoose.connection.on("error", (error) => {
-      console.error("❌ MongoDB connection error:", error);
+      console.error("MongoDB connection error:", error);
     });
 
     mongoose.connection.on("disconnected", () => {
-      console.warn("⚠️  MongoDB disconnected");
+      console.warn("MongoDB disconnected");
     });
 
     process.on("SIGINT", async () => {
@@ -25,7 +25,7 @@ export const connectDatabase = async (): Promise<void> => {
       process.exit(0);
     });
   } catch (error) {
-    console.error("❌ MongoDB connection failed:", error);
+    console.error("MongoDB connection failed:", error);
     process.exit(1);
   }
 };

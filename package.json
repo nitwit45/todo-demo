@@ -18,7 +18,15 @@
     "clean": "pnpm --recursive clean && rm -rf node_modules",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
-    "docker:logs": "docker-compose logs -f"
+    "docker:logs": "docker-compose logs -f",
+    "docker:build": "docker-compose build",
+    "release:major": "./scripts/release.sh major",
+    "release:minor": "./scripts/release.sh minor",
+    "release:patch": "./scripts/release.sh patch",
+    "deploy": "./scripts/deploy.sh production",
+    "deploy:staging": "./scripts/deploy.sh staging",
+    "setup:hooks": "./scripts/setup-hooks.sh",
+    "prepare": "command -v git > /dev/null && ./scripts/setup-hooks.sh || echo 'Not a git repo, skipping hooks'"
   },
   "keywords": [
     "todo",
