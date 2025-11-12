@@ -1,5 +1,5 @@
 {
   "buildCommand": "pnpm build",
   "outputDirectory": ".next",
-  "installCommand": "cd ../.. && pnpm install --frozen-lockfile && cd packages/validation && pnpm build && cd ../apps/client"
+  "installCommand": "pnpm install --frozen-lockfile"
 }
