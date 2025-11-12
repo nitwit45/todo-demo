@@ -1,0 +1,13 @@
+{
+  "buildCommand": "cd ../.. && pnpm install && pnpm build:client",
+  "outputDirectory": "apps/client/.next",
+  "devCommand": "cd apps/client && pnpm dev",
+  "installCommand": "pnpm install",
+  "framework": "nextjs",
+  "git": {
+    "deploymentEnabled": {
+      "main": true
+    }
+  }
+}
+
