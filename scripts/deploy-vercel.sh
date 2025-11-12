@@ -21,15 +21,13 @@ cd packages/validation
 pnpm build
 cd ../..
 
-# Deploy from client directory
-cd apps/client
-
+# Deploy from root directory with client scope
 if [ "$ENVIRONMENT" = "production" ]; then
     echo "🌍 Deploying to production..."
-    vercel --prod --yes
+    vercel --prod --yes apps/client
 else
     echo "👀 Creating preview deployment..."
-    vercel --yes
+    vercel --yes apps/client
 fi
 
 echo "✅ Deployment complete!"
