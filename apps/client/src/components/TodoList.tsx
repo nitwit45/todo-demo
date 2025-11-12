@@ -17,7 +17,7 @@ import {
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
-import type { Todo } from "@todo/validation";
+import type { Todo } from "@/lib/schemas";
 import { TodoItem } from "./TodoItem";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -26,7 +26,7 @@ import { cn } from "@/lib/utils";
 
 interface TodoListProps {
   todos: Todo[];
-  onToggle: (id: string, done: boolean) => void;
+  onToggle: (id: string, status: "TODO" | "IN_PROGRESS" | "DONE") => void;
   onDelete: (id: string) => void;
   onUpdate: (id: string, data: { title?: string; description?: string }) => void;
 }
@@ -66,8 +66,8 @@ export function TodoList({ todos, onToggle, onDelete, onUpdate }: TodoListProps)
   const filteredTodos = useMemo(() => {
     return items.filter((todo) => {
       // Filter by status
-      if (filter === "active" && todo.done) return false;
-      if (filter === "completed" && !todo.done) return false;
+      if (filter === "active" && todo.status === "DONE") return false;
+      if (filter === "completed" && todo.status !== "DONE") return false;
 
       // Search
       if (searchQuery) {
@@ -85,8 +85,8 @@ export function TodoList({ todos, onToggle, onDelete, onUpdate }: TodoListProps)
   const stats = useMemo(() => {
     return {
       total: todos.length,
-      active: todos.filter((t) => !t.done).length,
-      completed: todos.filter((t) => t.done).length,
+      active: todos.filter((t) => t.status !== "DONE").length,
+      completed: todos.filter((t) => t.status === "DONE").length,
     };
   }, [todos]);
 

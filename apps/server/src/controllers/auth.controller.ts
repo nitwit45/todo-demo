@@ -36,8 +36,8 @@ export const signup = async (req: Request, res: Response) => {
     });
 
     // Generate tokens
-    const accessToken = generateAccessToken({ userId: user._id.toString(), email: user.email });
-    const refreshToken = generateRefreshToken({ userId: user._id.toString(), email: user.email });
+    const accessToken = generateAccessToken({ userId: String(user._id), email: user.email });
+    const refreshToken = generateRefreshToken({ userId: String(user._id), email: user.email });
 
     res.status(201).json({
       success: true,
@@ -99,7 +99,7 @@ export const login = async (req: Request, res: Response) => {
     // If 2FA is enabled, require verification
     if (user.twoFactorEnabled) {
       // Generate a temporary token for 2FA verification
-      const tempToken = generateAccessToken({ userId: user._id.toString(), email: user.email });
+      const tempToken = generateAccessToken({ userId: String(user._id), email: user.email });
       
       return res.status(200).json({
         success: true,
@@ -112,8 +112,8 @@ export const login = async (req: Request, res: Response) => {
     }
 
     // Generate tokens
-    const accessToken = generateAccessToken({ userId: user._id.toString(), email: user.email });
-    const refreshToken = generateRefreshToken({ userId: user._id.toString(), email: user.email });
+    const accessToken = generateAccessToken({ userId: String(user._id), email: user.email });
+    const refreshToken = generateRefreshToken({ userId: String(user._id), email: user.email });
 
     res.status(200).json({
       success: true,
@@ -278,8 +278,8 @@ export const loginWithTwoFactor = async (req: Request, res: Response) => {
     }
 
     // Generate tokens
-    const accessToken = generateAccessToken({ userId: user._id.toString(), email: user.email });
-    const refreshToken = generateRefreshToken({ userId: user._id.toString(), email: user.email });
+    const accessToken = generateAccessToken({ userId: String(user._id), email: user.email });
+    const refreshToken = generateRefreshToken({ userId: String(user._id), email: user.email });
 
     res.status(200).json({
       success: true,

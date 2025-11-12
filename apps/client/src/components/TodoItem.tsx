@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import type { Todo } from "@todo/validation";
+import type { Todo } from "@/lib/schemas";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { GripVertical, Pencil, Trash2 } from "lucide-react";
@@ -13,7 +13,7 @@ import { EditTodoDialog } from "./EditTodoDialog";
 
 interface TodoItemProps {
   todo: Todo;
-  onToggle: (id: string, done: boolean) => void;
+  onToggle: (id: string, status: "TODO" | "IN_PROGRESS" | "DONE") => void;
   onDelete: (id: string) => void;
   onUpdate: (id: string, data: { title?: string; description?: string }) => void;
 }
@@ -40,7 +40,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
         className={cn(
           "group relative flex items-start gap-3 rounded-lg border bg-card p-4 shadow-sm transition-all hover:shadow-md",
           isDragging && "opacity-50 shadow-lg",
-          todo.done && "opacity-75"
+          todo.status === "DONE" && "opacity-75"
         )}
       >
         {/* Drag Handle */}
@@ -54,8 +54,8 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
 
         {/* Checkbox */}
         <Checkbox
-          checked={todo.done}
-          onCheckedChange={(checked) => onToggle(todo._id || "", checked as boolean)}
+          checked={todo.status === "DONE"}
+          onCheckedChange={(checked) => onToggle(todo._id || "", checked ? "DONE" : "TODO")}
           className="mt-1"
         />
 
@@ -64,7 +64,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
           <h3
             className={cn(
               "font-medium leading-tight",
-              todo.done && "text-muted-foreground line-through"
+              todo.status === "DONE" && "text-muted-foreground line-through"
             )}
           >
             {todo.title}
@@ -73,7 +73,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
             <p
               className={cn(
                 "text-sm text-muted-foreground",
-                todo.done && "line-through"
+                todo.status === "DONE" && "line-through"
               )}
             >
               {todo.description}
@@ -109,7 +109,6 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
         todo={todo}
         open={isEditOpen}
         onOpenChange={setIsEditOpen}
-        onUpdate={onUpdate}
       />
     </>
   );
