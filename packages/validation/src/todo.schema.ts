@@ -10,7 +10,11 @@ export const todoSchema = z.object({
     .min(1, "Title is required")
     .max(200, "Title must be 200 characters or less")
     .trim(),
-  description: z.string().max(1000, "Description must be 1000 characters or less").trim().optional(),
+  description: z
+    .string()
+    .max(1000, "Description must be 1000 characters or less")
+    .trim()
+    .optional(),
   done: z.boolean().default(false),
   createdAt: z.date().or(z.string()).optional(),
   updatedAt: z.date().or(z.string()).optional(),
@@ -50,4 +54,3 @@ export type Todo = z.infer<typeof todoSchema>;
 export type CreateTodoInput = z.infer<typeof createTodoSchema>;
 export type UpdateTodoInput = z.infer<typeof updateTodoSchema>;
 export type ToggleTodoInput = z.infer<typeof toggleTodoSchema>;
-

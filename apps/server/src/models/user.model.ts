@@ -57,7 +57,7 @@ const userSchema = new Schema<IUserDocument>(
 // Hash password before saving
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-  
+
   try {
     const salt = await bcrypt.genSalt(12);
     this.password = await bcrypt.hash(this.password, salt);
@@ -68,9 +68,7 @@ userSchema.pre("save", async function (next) {
 });
 
 // Method to compare passwords
-userSchema.methods.comparePassword = async function (
-  candidatePassword: string
-): Promise<boolean> {
+userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
@@ -78,4 +76,3 @@ userSchema.methods.comparePassword = async function (
 userSchema.index({ email: 1 });
 
 export const UserModel = mongoose.model<IUserDocument>("User", userSchema);
-

@@ -22,4 +22,3 @@ router.patch("/todos/:id/status", updateTodoStatus);
 router.delete("/todos/:id", deleteTodo);
 
 export default router;
-

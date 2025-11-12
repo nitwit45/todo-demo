@@ -38,4 +38,3 @@ export function AppHeader() {
     </motion.header>
   );
 }
-

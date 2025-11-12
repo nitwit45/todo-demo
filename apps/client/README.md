@@ -51,4 +51,3 @@ NEXT_PUBLIC_API_URL=http://localhost:5000
 - shadcn/ui components
 - TanStack Query for data fetching
 - React Hook Form for forms
-

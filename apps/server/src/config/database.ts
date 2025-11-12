@@ -29,4 +29,3 @@ export const connectDatabase = async (): Promise<void> => {
     process.exit(1);
   }
 };
-

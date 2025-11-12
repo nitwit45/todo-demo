@@ -31,11 +31,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     if (initializedRef.current || loadingStartedRef.current || isLoggingIn) {
       return;
     }
-    
+
     const loadUser = async () => {
       loadingStartedRef.current = true;
       initializedRef.current = true;
-      
+
       // Only try to load user if we have a token
       const token = getAccessToken();
       if (!token) {
@@ -52,11 +52,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       try {
         const currentUser = await getCurrentUser();
         // Only update user if we don't already have one (e.g., from login)
-        setUser(prevUser => prevUser || currentUser);
+        setUser((prevUser) => prevUser || currentUser);
       } catch (error) {
         console.error("Failed to load user:", error);
         // Only clear user if we don't already have one
-        setUser(prevUser => prevUser || null);
+        setUser((prevUser) => prevUser || null);
       } finally {
         setLoading(false);
       }
@@ -70,11 +70,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     isLoggingIn = true; // Set flag to prevent getCurrentUser from being called
     loadingStartedRef.current = true; // Prevent loadUser from running
     initializedRef.current = true; // Mark as initialized to prevent useEffect from running
-    
+
     // Use functional update to ensure state is set immediately
     setUser(() => userData);
     setLoading(() => false);
-    
+
     // Reset the flag after navigation completes
     setTimeout(() => {
       isLoggingIn = false;
@@ -118,4 +118,3 @@ export const useAuth = () => {
   }
   return context;
 };
-

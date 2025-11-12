@@ -33,6 +33,7 @@ src/
 ### Installation
 
 From the project root:
+
 ```bash
 pnpm install
 ```
@@ -40,6 +41,7 @@ pnpm install
 ### Environment Variables
 
 Create `.env` in this directory:
+
 ```env
 NODE_ENV=development
 PORT=5000
@@ -102,6 +104,7 @@ pnpm start
 Retrieve all todos, sorted by creation date (newest first).
 
 Response:
+
 ```json
 [
   {
@@ -120,6 +123,7 @@ Response:
 Create a new todo.
 
 Request:
+
 ```json
 {
   "title": "Task name",
@@ -134,6 +138,7 @@ Response: `201 Created` with the created todo object
 Update a todo's title and/or description.
 
 Request:
+
 ```json
 {
   "title": "Updated title",
@@ -148,6 +153,7 @@ Response: `200 OK` with the updated todo object
 Toggle a todo's completion status.
 
 Request:
+
 ```json
 {
   "done": true
@@ -165,6 +171,7 @@ Response: `204 No Content`
 ### Error Responses
 
 All error responses follow this format:
+
 ```json
 {
   "error": "Error message",
@@ -178,6 +185,7 @@ All error responses follow this format:
 ```
 
 Status codes:
+
 - `400` - Validation error or bad request
 - `404` - Todo not found
 - `500` - Internal server error
@@ -189,6 +197,7 @@ Status codes:
 Check API status.
 
 Response:
+
 ```json
 {
   "status": "ok",
@@ -203,15 +212,16 @@ Response:
 
 ```typescript
 {
-  title: string         // Required, max 200 characters
-  description: string   // Optional, max 1000 characters
-  done: boolean        // Default: false
-  createdAt: Date      // Auto-generated
-  updatedAt: Date      // Auto-generated
+  title: string; // Required, max 200 characters
+  description: string; // Optional, max 1000 characters
+  done: boolean; // Default: false
+  createdAt: Date; // Auto-generated
+  updatedAt: Date; // Auto-generated
 }
 ```
 
 Indexes:
+
 - `done` field for filtering
 - `createdAt` field for sorting
 
@@ -220,6 +230,7 @@ Indexes:
 The API uses Zod schemas from the shared `@todo/validation` package. This ensures validation rules match between frontend and backend.
 
 Validation occurs at two levels:
+
 1. Zod runtime validation in controllers
 2. Mongoose schema validation in the database layer
 
@@ -228,6 +239,7 @@ Validation occurs at two levels:
 ### Security
 
 Helmet is configured to set security headers:
+
 - Content Security Policy
 - X-Frame-Options
 - X-Content-Type-Options
@@ -248,6 +260,7 @@ Global error handler catches all unhandled errors and returns appropriate respon
 ## Error Handling
 
 The application includes comprehensive error handling:
+
 - Zod validation errors return 400 with detailed field-level messages
 - MongoDB errors are caught and logged
 - 404 handler for undefined routes
@@ -256,6 +269,7 @@ The application includes comprehensive error handling:
 ## MongoDB Connection
 
 The database connection includes:
+
 - Automatic reconnection on disconnect
 - Connection error logging
 - Graceful shutdown on SIGINT
@@ -333,8 +347,8 @@ The API is designed to be stateless and can be horizontally scaled. All state is
 Connection pooling is handled automatically by Mongoose. The default pool size is sufficient for most use cases.
 
 For high-traffic scenarios, consider:
+
 - Adding Redis for caching
 - Implementing request rate limiting
 - Using a load balancer
 - Enabling MongoDB replica sets
-

@@ -100,7 +100,7 @@ export const login = async (req: Request, res: Response) => {
     if (user.twoFactorEnabled) {
       // Generate a temporary token for 2FA verification
       const tempToken = generateAccessToken({ userId: String(user._id), email: user.email });
-      
+
       return res.status(200).json({
         success: true,
         requiresTwoFactor: true,
@@ -161,7 +161,7 @@ export const setupTwoFactor = async (req: AuthRequest, res: Response) => {
 
     // Generate 2FA secret
     const { secret, otpauthUrl } = generateTwoFactorSecret(user.email);
-    
+
     // Generate QR code
     const qrCode = await generateQRCode(otpauthUrl!);
 
@@ -217,7 +217,7 @@ export const verifyTwoFactor = async (req: AuthRequest, res: Response) => {
 
     // Verify token
     const isValid = verifyTwoFactorToken(token, user.twoFactorSecret);
-    
+
     if (!isValid) {
       return res.status(401).json({
         success: false,
@@ -269,7 +269,7 @@ export const loginWithTwoFactor = async (req: Request, res: Response) => {
 
     // Verify token
     const isValid = verifyTwoFactorToken(token, user.twoFactorSecret);
-    
+
     if (!isValid) {
       return res.status(401).json({
         success: false,
@@ -358,7 +358,7 @@ export const refreshToken = async (req: Request, res: Response) => {
 
     try {
       const decoded = verifyRefreshToken(token);
-      
+
       // Generate new access token
       const accessToken = generateAccessToken({ userId: decoded.userId, email: decoded.email });
 
@@ -423,4 +423,3 @@ export const getCurrentUser = async (req: AuthRequest, res: Response) => {
     });
   }
 };
-

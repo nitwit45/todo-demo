@@ -50,7 +50,12 @@ export function EditTodoDialog({ todo, open, onOpenChange }: EditTodoDialogProps
   const onSubmit = async (data: UpdateTodoInput) => {
     const todoData: UpdateTodoInput = {
       ...data,
-      tags: tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+      tags: tags
+        ? tags
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : [],
     };
 
     await updateMutation.mutateAsync({ id: todo._id, data: todoData });
@@ -62,9 +67,7 @@ export function EditTodoDialog({ todo, open, onOpenChange }: EditTodoDialogProps
       <DialogContent className="sm:max-w-[525px]">
         <DialogHeader>
           <DialogTitle>Edit Task</DialogTitle>
-          <DialogDescription>
-            Make changes to your task below.
-          </DialogDescription>
+          <DialogDescription>Make changes to your task below.</DialogDescription>
         </DialogHeader>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -77,9 +80,7 @@ export function EditTodoDialog({ todo, open, onOpenChange }: EditTodoDialogProps
               placeholder="Enter task title"
               {...register("title", { required: "Title is required" })}
             />
-            {errors.title && (
-              <p className="text-sm text-destructive">{errors.title.message}</p>
-            )}
+            {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -123,11 +124,7 @@ export function EditTodoDialog({ todo, open, onOpenChange }: EditTodoDialogProps
 
           <div className="space-y-2">
             <Label htmlFor="edit-dueDate">Due Date</Label>
-            <Input
-              id="edit-dueDate"
-              type="date"
-              {...register("dueDate")}
-            />
+            <Input id="edit-dueDate" type="date" {...register("dueDate")} />
           </div>
 
           <div className="space-y-2">

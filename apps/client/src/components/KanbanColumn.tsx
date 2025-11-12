@@ -43,13 +43,9 @@ export function KanbanColumn({ column, todos, onStatusChange }: KanbanColumnProp
         }`}
       >
         {todos.map((todo) => (
-          <KanbanCard
-            key={todo._id}
-            todo={todo}
-            onStatusChange={onStatusChange}
-          />
+          <KanbanCard key={todo._id} todo={todo} onStatusChange={onStatusChange} />
         ))}
-        
+
         {todos.length === 0 && (
           <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
             <p className="text-sm">{isOver ? "Drop here" : "No tasks"}</p>
@@ -59,4 +55,3 @@ export function KanbanColumn({ column, todos, onStatusChange }: KanbanColumnProp
     </div>
   );
 }
-

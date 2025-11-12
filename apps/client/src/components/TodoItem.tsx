@@ -105,12 +105,7 @@ export function TodoItem({ todo, onToggle, onDelete, onUpdate }: TodoItemProps) 
         </div>
       </motion.div>
 
-      <EditTodoDialog
-        todo={todo}
-        open={isEditOpen}
-        onOpenChange={setIsEditOpen}
-      />
+      <EditTodoDialog todo={todo} open={isEditOpen} onOpenChange={setIsEditOpen} />
     </>
   );
 }
-

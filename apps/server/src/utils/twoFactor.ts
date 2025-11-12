@@ -25,4 +25,3 @@ export const verifyTwoFactorToken = (token: string, secret: string): boolean => 
     window: 2, // Allow 2 time steps before/after for clock skew
   });
 };
-

@@ -186,9 +186,7 @@ export function KanbanBoard({ searchQuery, selectedPriority }: KanbanBoardProps)
           <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed py-24 mt-12">
             <Inbox className="h-16 w-16 text-muted-foreground/50 mb-4" />
             <p className="text-lg font-medium text-muted-foreground mb-2">No tasks yet</p>
-            <p className="text-sm text-muted-foreground">
-              Create your first task to get started
-            </p>
+            <p className="text-sm text-muted-foreground">Create your first task to get started</p>
           </div>
         )}
       </div>
@@ -203,4 +201,3 @@ export function KanbanBoard({ searchQuery, selectedPriority }: KanbanBoardProps)
     </DndContext>
   );
 }
-

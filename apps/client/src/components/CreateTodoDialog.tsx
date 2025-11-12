@@ -40,7 +40,12 @@ export function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialogProps) 
       priority: data.priority || "MEDIUM",
       status: "TODO",
       dueDate: data.dueDate,
-      tags: tags ? tags.split(",").map((t) => t.trim()).filter(Boolean) : [],
+      tags: tags
+        ? tags
+            .split(",")
+            .map((t) => t.trim())
+            .filter(Boolean)
+        : [],
     };
 
     await createMutation.mutateAsync(todoData);
@@ -75,9 +80,7 @@ export function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialogProps) 
               placeholder="Enter task title"
               {...register("title", { required: "Title is required" })}
             />
-            {errors.title && (
-              <p className="text-sm text-destructive">{errors.title.message}</p>
-            )}
+            {errors.title && <p className="text-sm text-destructive">{errors.title.message}</p>}
           </div>
 
           <div className="space-y-2">
@@ -108,11 +111,7 @@ export function CreateTodoDialog({ open, onOpenChange }: CreateTodoDialogProps) 
 
             <div className="space-y-2">
               <Label htmlFor="dueDate">Due Date</Label>
-              <Input
-                id="dueDate"
-                type="date"
-                {...register("dueDate")}
-              />
+              <Input id="dueDate" type="date" {...register("dueDate")} />
             </div>
           </div>
 

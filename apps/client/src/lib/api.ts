@@ -96,4 +96,3 @@ export const todoApi = {
     return handleResponse<void>(response);
   },
 };
-

@@ -80,7 +80,9 @@ function SettingsPageContent() {
   };
 
   const handleDisable2FA = async () => {
-    if (!confirm("Are you sure you want to disable 2FA? This will make your account less secure.")) {
+    if (
+      !confirm("Are you sure you want to disable 2FA? This will make your account less secure.")
+    ) {
       return;
     }
 
@@ -177,10 +179,10 @@ function SettingsPageContent() {
                 <div className="flex flex-col items-center space-y-4">
                   <div className="p-4 bg-white rounded-lg">
                     {qrCode && (
-                      <Image 
-                        src={qrCode} 
-                        alt="QR Code" 
-                        width={200} 
+                      <Image
+                        src={qrCode}
+                        alt="QR Code"
+                        width={200}
                         height={200}
                         className="w-48 h-48"
                       />
@@ -188,9 +190,7 @@ function SettingsPageContent() {
                   </div>
                   <div className="text-center">
                     <p className="text-sm font-medium mb-2">Or enter this code manually:</p>
-                    <code className="px-3 py-1.5 bg-muted rounded text-sm font-mono">
-                      {secret}
-                    </code>
+                    <code className="px-3 py-1.5 bg-muted rounded text-sm font-mono">{secret}</code>
                   </div>
                 </div>
               </div>
@@ -213,16 +213,16 @@ function SettingsPageContent() {
                 </div>
 
                 <div className="flex gap-3">
-                  <Button 
-                    onClick={handleVerify2FA} 
+                  <Button
+                    onClick={handleVerify2FA}
                     disabled={isLoading || verificationCode.length !== 6}
                     className="flex-1"
                   >
                     {isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                     Verify & Enable
                   </Button>
-                  <Button 
-                    variant="outline" 
+                  <Button
+                    variant="outline"
                     onClick={() => {
                       setShowSetup(false);
                       setQrCode("");
@@ -241,7 +241,8 @@ function SettingsPageContent() {
             <div className="space-y-4">
               <div className="bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-900 rounded-lg p-4">
                 <p className="text-sm text-green-800 dark:text-green-200">
-                  Your account is protected with two-factor authentication. You&apos;ll need to enter a code from your authenticator app when signing in.
+                  Your account is protected with two-factor authentication. You&apos;ll need to
+                  enter a code from your authenticator app when signing in.
                 </p>
               </div>
               <Button variant="destructive" onClick={handleDisable2FA} disabled={isLoading}>
@@ -263,4 +264,3 @@ export default function SettingsPage() {
     </ProtectedRoute>
   );
 }
-

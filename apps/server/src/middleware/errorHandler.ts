@@ -25,4 +25,3 @@ export const notFoundHandler = (_req: Request, res: Response): void => {
     error: "Route not found",
   });
 };
-

@@ -30,11 +30,13 @@ That's it! The app will be running with a full database setup.
 If you prefer to set things up manually:
 
 1. **Install dependencies**
+
    ```bash
    pnpm install
    ```
 
 2. **Start MongoDB**
+
    ```bash
    docker run -d --name todo-mongodb -p 27017:27017 \
      -e MONGO_INITDB_ROOT_USERNAME=admin \
@@ -43,6 +45,7 @@ If you prefer to set things up manually:
    ```
 
 3. **Configure environment** (create `apps/server/.env`)
+
    ```env
    NODE_ENV=development
    PORT=5000

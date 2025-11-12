@@ -20,11 +20,13 @@ pnpm install
 ### Start Database
 
 Using Docker Compose:
+
 ```bash
 pnpm docker:up
 ```
 
 Or using Docker directly:
+
 ```bash
 docker run -d --name todo-mongodb -p 27017:27017 \
   -e MONGO_INITDB_ROOT_USERNAME=admin \
@@ -35,12 +37,14 @@ docker run -d --name todo-mongodb -p 27017:27017 \
 ### Environment Configuration
 
 Backend environment:
+
 ```bash
 cd apps/server
 cp .env.example .env
 ```
 
 Frontend environment:
+
 ```bash
 cd apps/client
 cp .env.local.example .env.local
@@ -58,6 +62,7 @@ pnpm dev
 This starts the backend API on port 5000 and frontend on port 3000.
 
 Or run services separately:
+
 ```bash
 pnpm dev:server  # Backend only
 pnpm dev:client  # Frontend only
@@ -74,6 +79,7 @@ pnpm dev:client  # Frontend only
 ## Architecture
 
 ### Backend
+
 - Express.js with TypeScript
 - MongoDB with Mongoose
 - JWT authentication with refresh tokens
@@ -81,6 +87,7 @@ pnpm dev:client  # Frontend only
 - bcrypt password hashing
 
 ### Frontend
+
 - Next.js 14 with App Router
 - React Query for data management
 - Tailwind CSS and shadcn/ui components
@@ -89,6 +96,7 @@ pnpm dev:client  # Frontend only
 ## API Endpoints
 
 ### Authentication
+
 - `POST /api/auth/signup` - User registration
 - `POST /api/auth/login` - User login
 - `POST /api/auth/login/2fa` - 2FA verification
@@ -99,6 +107,7 @@ pnpm dev:client  # Frontend only
 - `POST /api/auth/2fa/disable` - Disable 2FA
 
 ### Tasks (Authenticated)
+
 - `GET /api/todos` - List tasks
 - `POST /api/todos` - Create task
 - `PUT /api/todos/:id` - Update task
@@ -136,20 +145,25 @@ pnpm docker:logs   # View logs
 ## Troubleshooting
 
 ### Ports in use
+
 Update ports in environment files if 3000/5000 are occupied:
+
 - `apps/server/.env` (PORT)
 - `apps/client/.env.local` (NEXT_PUBLIC_API_URL)
 
 ### Database connection
+
 Check MongoDB is running: `docker ps | grep mongo`
 If not running: `pnpm docker:up`
 
 ### Authentication issues
+
 - Verify JWT secrets in `apps/server/.env`
 - Clear browser storage
 - Restart backend server
 
 ### 2FA setup
+
 Install QR code package: `cd apps/server && pnpm install`
 
 ## Resources

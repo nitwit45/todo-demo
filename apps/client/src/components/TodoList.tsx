@@ -98,7 +98,9 @@ export function TodoList({ todos, onToggle, onDelete, onUpdate }: TodoListProps)
         <p className="mt-2 text-sm text-muted-foreground">
           Get started by creating your first todo.
         </p>
-        <p className="mt-1 text-xs text-muted-foreground">Press &apos;N&apos; to create a new todo</p>
+        <p className="mt-1 text-xs text-muted-foreground">
+          Press &apos;N&apos; to create a new todo
+        </p>
       </div>
     );
   }
@@ -170,7 +172,10 @@ export function TodoList({ todos, onToggle, onDelete, onUpdate }: TodoListProps)
         </div>
       ) : (
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
-          <SortableContext items={filteredTodos.map((t) => t._id || "")} strategy={verticalListSortingStrategy}>
+          <SortableContext
+            items={filteredTodos.map((t) => t._id || "")}
+            strategy={verticalListSortingStrategy}
+          >
             <div className="space-y-2">
               <AnimatePresence>
                 {filteredTodos.map((todo) => (
@@ -190,4 +195,3 @@ export function TodoList({ todos, onToggle, onDelete, onUpdate }: TodoListProps)
     </div>
   );
 }
-

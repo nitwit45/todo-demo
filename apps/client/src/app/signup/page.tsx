@@ -24,7 +24,12 @@ export default function SignupPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { login: authLogin } = useAuth();
-  const { register, handleSubmit, watch, formState: { errors } } = useForm<SignupForm>();
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<SignupForm>();
   const password = watch("password");
 
   const onSubmit = async (data: SignupForm) => {
@@ -44,7 +49,7 @@ export default function SignupPage() {
         email: data.email,
         password: data.password,
       });
-      
+
       if (result.success && result.data?.user) {
         authLogin(result.data.user);
         toast({
@@ -82,7 +87,7 @@ export default function SignupPage() {
             <h1 className="text-3xl font-bold">TaskFlow</h1>
           </div>
         </div>
-        
+
         <div className="relative z-10 space-y-6">
           <div className="flex items-start gap-4 text-white/90">
             <Sparkles className="h-6 w-6 mt-1 flex-shrink-0" />
@@ -112,14 +117,17 @@ export default function SignupPage() {
             </div>
           </div>
         </div>
-        
+
         <div className="relative z-10 text-white/60 text-sm">
           © 2025 TaskFlow. Built with modern technologies.
         </div>
       </div>
 
       {/* Right side - Signup form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-background animate-fade-in" style={{ animationDelay: '0.1s' }}>
+      <div
+        className="flex-1 flex items-center justify-center p-8 bg-background animate-fade-in"
+        style={{ animationDelay: "0.1s" }}
+      >
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <div className="lg:hidden flex items-center justify-center gap-2 mb-6">
@@ -127,9 +135,7 @@ export default function SignupPage() {
               <h1 className="text-2xl font-bold">TaskFlow</h1>
             </div>
             <h2 className="text-3xl font-bold tracking-tight">Create your account</h2>
-            <p className="mt-2 text-muted-foreground">
-              Start managing your tasks like a pro
-            </p>
+            <p className="mt-2 text-muted-foreground">Start managing your tasks like a pro</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -143,15 +149,13 @@ export default function SignupPage() {
                     type="text"
                     placeholder="John Doe"
                     className="pl-10"
-                    {...register("name", { 
+                    {...register("name", {
                       required: "Name is required",
-                      minLength: { value: 2, message: "Name must be at least 2 characters" }
+                      minLength: { value: 2, message: "Name must be at least 2 characters" },
                     })}
                   />
                 </div>
-                {errors.name && (
-                  <p className="text-sm text-destructive">{errors.name.message}</p>
-                )}
+                {errors.name && <p className="text-sm text-destructive">{errors.name.message}</p>}
               </div>
 
               <div className="space-y-2">
@@ -163,18 +167,16 @@ export default function SignupPage() {
                     type="email"
                     placeholder="name@example.com"
                     className="pl-10"
-                    {...register("email", { 
+                    {...register("email", {
                       required: "Email is required",
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                        message: "Invalid email address"
-                      }
+                        message: "Invalid email address",
+                      },
                     })}
                   />
                 </div>
-                {errors.email && (
-                  <p className="text-sm text-destructive">{errors.email.message}</p>
-                )}
+                {errors.email && <p className="text-sm text-destructive">{errors.email.message}</p>}
               </div>
 
               <div className="space-y-2">
@@ -186,9 +188,9 @@ export default function SignupPage() {
                     type="password"
                     placeholder="••••••••"
                     className="pl-10"
-                    {...register("password", { 
+                    {...register("password", {
                       required: "Password is required",
-                      minLength: { value: 8, message: "Password must be at least 8 characters" }
+                      minLength: { value: 8, message: "Password must be at least 8 characters" },
                     })}
                   />
                 </div>
@@ -206,9 +208,9 @@ export default function SignupPage() {
                     type="password"
                     placeholder="••••••••"
                     className="pl-10"
-                    {...register("confirmPassword", { 
+                    {...register("confirmPassword", {
                       required: "Please confirm your password",
-                      validate: value => value === password || "Passwords don't match"
+                      validate: (value) => value === password || "Passwords don't match",
                     })}
                   />
                 </div>
@@ -239,4 +241,3 @@ export default function SignupPage() {
     </div>
   );
 }
-

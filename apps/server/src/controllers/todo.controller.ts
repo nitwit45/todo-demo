@@ -34,8 +34,7 @@ export const getTodos = async (req: AuthRequest, res: Response): Promise<void> =
       return;
     }
 
-    const todos = await TodoModel.find({ user: req.user.userId })
-      .sort({ createdAt: -1 });
+    const todos = await TodoModel.find({ user: req.user.userId }).sort({ createdAt: -1 });
     res.json(todos);
   } catch (error) {
     console.error("Error fetching todos:", error);
@@ -175,7 +174,7 @@ export const deleteTodo = async (req: AuthRequest, res: Response): Promise<void>
     }
 
     const { id } = req.params;
-    
+
     // Check ownership before deleting
     const todo = await TodoModel.findOneAndDelete({ _id: id, user: req.user.userId });
 
@@ -190,4 +189,3 @@ export const deleteTodo = async (req: AuthRequest, res: Response): Promise<void>
     res.status(500).json({ error: "Failed to delete todo" });
   }
 };
-

@@ -64,16 +64,13 @@ export function useUpdateTodo() {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: ({ id, data }: { id: string; data: UpdateTodoInput }) =>
-      todoApi.update(id, data),
+    mutationFn: ({ id, data }: { id: string; data: UpdateTodoInput }) => todoApi.update(id, data),
     onMutate: async ({ id, data }) => {
       await queryClient.cancelQueries({ queryKey: QUERY_KEY });
       const previousTodos = queryClient.getQueryData<Todo[]>(QUERY_KEY);
 
       queryClient.setQueryData<Todo[]>(QUERY_KEY, (old) =>
-        old?.map((todo) =>
-          todo._id === id ? { ...todo, ...data } : todo
-        )
+        old?.map((todo) => (todo._id === id ? { ...todo, ...data } : todo))
       );
 
       return { previousTodos };
@@ -110,9 +107,7 @@ export function useUpdateTodoStatus() {
       const previousTodos = queryClient.getQueryData<Todo[]>(QUERY_KEY);
 
       queryClient.setQueryData<Todo[]>(QUERY_KEY, (old) =>
-        old?.map((todo) =>
-          todo._id === id ? { ...todo, status } : todo
-        )
+        old?.map((todo) => (todo._id === id ? { ...todo, status } : todo))
       );
 
       return { previousTodos };
@@ -141,9 +136,7 @@ export function useDeleteTodo() {
       await queryClient.cancelQueries({ queryKey: QUERY_KEY });
       const previousTodos = queryClient.getQueryData<Todo[]>(QUERY_KEY);
 
-      queryClient.setQueryData<Todo[]>(QUERY_KEY, (old) =>
-        old?.filter((todo) => todo._id !== id)
-      );
+      queryClient.setQueryData<Todo[]>(QUERY_KEY, (old) => old?.filter((todo) => todo._id !== id));
 
       return { previousTodos };
     },

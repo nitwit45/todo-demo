@@ -1,11 +1,5 @@
 {
-<<<<<<< HEAD
   "buildCommand": "pnpm build",
   "outputDirectory": ".next",
   "installCommand": "cd ../.. && pnpm install --frozen-lockfile && cd packages/validation && pnpm build && cd ../apps/client"
 }
-
-=======
-  "framework": "nextjs"
-}
->>>>>>> d272c6d53576c6753ab4ed713caf3181e09522c9

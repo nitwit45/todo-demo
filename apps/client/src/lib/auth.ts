@@ -26,7 +26,7 @@ export const clearTokens = () => {
 // API fetch wrapper with auth
 export const authFetch = async (url: string, options: RequestInit = {}) => {
   const token = getAccessToken();
-  
+
   const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...(options.headers as Record<string, string>),
@@ -99,13 +99,13 @@ export const signup = async (data: SignupData): Promise<AuthResponse> => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  
+
   const result = await response.json();
-  
+
   if (result.success && result.data?.accessToken && result.data?.refreshToken) {
     setTokens(result.data.accessToken, result.data.refreshToken);
   }
-  
+
   return result;
 };
 
@@ -115,45 +115,42 @@ export const login = async (data: LoginData): Promise<AuthResponse> => {
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
   });
-  
+
   const result = await response.json();
-  
+
   if (result.success && !result.requiresTwoFactor) {
     if (result.data?.accessToken && result.data?.refreshToken) {
       setTokens(result.data.accessToken, result.data.refreshToken);
     }
   }
-  
+
   return result;
 };
 
-export const loginWithTwoFactor = async (
-  userId: string,
-  token: string
-): Promise<AuthResponse> => {
+export const loginWithTwoFactor = async (userId: string, token: string): Promise<AuthResponse> => {
   const response = await fetch(`${API_URL}/api/auth/login/2fa`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ userId, token }),
   });
-  
+
   const result = await response.json();
-  
+
   if (result.success && result.data?.accessToken && result.data?.refreshToken) {
     setTokens(result.data.accessToken, result.data.refreshToken);
   }
-  
+
   return result;
 };
 
 export const getCurrentUser = async (): Promise<User | null> => {
   try {
     const response = await authFetch("/api/auth/me");
-    
+
     if (!response.ok) {
       return null;
     }
-    
+
     const result = await response.json();
     return result.data?.user || null;
   } catch (error) {
@@ -164,25 +161,25 @@ export const getCurrentUser = async (): Promise<User | null> => {
 
 export const refreshAccessToken = async (): Promise<boolean> => {
   const refreshToken = getRefreshToken();
-  
+
   if (!refreshToken) {
     return false;
   }
-  
+
   try {
     const response = await fetch(`${API_URL}/api/auth/refresh`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ refreshToken }),
     });
-    
+
     const result = await response.json();
-    
+
     if (result.success && result.data?.accessToken) {
       localStorage.setItem("accessToken", result.data.accessToken);
       return true;
     }
-    
+
     return false;
   } catch (error) {
     console.error("Failed to refresh token:", error);
@@ -202,7 +199,7 @@ export const setup2FA = async (): Promise<{
   const response = await authFetch("/api/auth/2fa/setup", {
     method: "POST",
   });
-  
+
   return response.json();
 };
 
@@ -211,7 +208,7 @@ export const verify2FA = async (token: string): Promise<AuthResponse> => {
     method: "POST",
     body: JSON.stringify({ token }),
   });
-  
+
   return response.json();
 };
 
@@ -219,7 +216,6 @@ export const disable2FA = async (): Promise<AuthResponse> => {
   const response = await authFetch("/api/auth/2fa/disable", {
     method: "POST",
   });
-  
+
   return response.json();
 };
-

@@ -28,4 +28,3 @@ export function PageTransition({ children }: PageTransitionProps) {
     </AnimatePresence>
   );
 }
-

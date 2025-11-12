@@ -25,10 +25,26 @@ interface KanbanCardProps {
 }
 
 const priorityConfig = {
-  URGENT: { label: "Urgent", color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400", icon: "🔴" },
-  HIGH: { label: "High", color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400", icon: "🟠" },
-  MEDIUM: { label: "Medium", color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400", icon: "🟡" },
-  LOW: { label: "Low", color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400", icon: "🟢" },
+  URGENT: {
+    label: "Urgent",
+    color: "bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400",
+    icon: "🔴",
+  },
+  HIGH: {
+    label: "High",
+    color: "bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400",
+    icon: "🟠",
+  },
+  MEDIUM: {
+    label: "Medium",
+    color: "bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-400",
+    icon: "🟡",
+  },
+  LOW: {
+    label: "Low",
+    color: "bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400",
+    icon: "🟢",
+  },
 };
 
 export function KanbanCard({ todo, onStatusChange }: KanbanCardProps) {
@@ -126,13 +142,13 @@ export function KanbanCard({ todo, onStatusChange }: KanbanCardProps) {
         </div>
 
         {todo.description && (
-          <p className="text-xs text-muted-foreground mb-3 line-clamp-2">
-            {todo.description}
-          </p>
+          <p className="text-xs text-muted-foreground mb-3 line-clamp-2">{todo.description}</p>
         )}
 
         <div className="flex flex-wrap items-center gap-2 mb-3">
-          <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${priority.color}`}>
+          <span
+            className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${priority.color}`}
+          >
             <span>{priority.icon}</span>
             <span>{priority.label}</span>
           </span>
@@ -149,9 +165,7 @@ export function KanbanCard({ todo, onStatusChange }: KanbanCardProps) {
                 </span>
               ))}
               {todo.tags.length > 2 && (
-                <span className="text-xs text-muted-foreground">
-                  +{todo.tags.length - 2}
-                </span>
+                <span className="text-xs text-muted-foreground">+{todo.tags.length - 2}</span>
               )}
             </>
           )}
@@ -165,12 +179,7 @@ export function KanbanCard({ todo, onStatusChange }: KanbanCardProps) {
         )}
       </motion.div>
 
-      <EditTodoDialog
-        todo={todo}
-        open={isEditOpen}
-        onOpenChange={setIsEditOpen}
-      />
+      <EditTodoDialog todo={todo} open={isEditOpen} onOpenChange={setIsEditOpen} />
     </>
   );
 }
-

@@ -1,7 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Plus, Search, Filter, User as UserIcon, Settings, LogOut, CheckSquare } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Filter,
+  User as UserIcon,
+  Settings,
+  LogOut,
+  CheckSquare,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useAuth } from "@/contexts/AuthContext";
@@ -30,7 +38,7 @@ function HomePageContent() {
   const getInitials = (name: string) => {
     return name
       .split(" ")
-      .map(n => n[0])
+      .map((n) => n[0])
       .join("")
       .toUpperCase()
       .slice(0, 2);
@@ -57,8 +65,8 @@ function HomePageContent() {
 
           <div className="flex items-center gap-3">
             <ThemeToggle />
-            <Button 
-              onClick={() => setIsCreateOpen(true)} 
+            <Button
+              onClick={() => setIsCreateOpen(true)}
               size="sm"
               className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 shadow-md"
             >
@@ -103,7 +111,10 @@ function HomePageContent() {
       </header>
 
       {/* Toolbar */}
-      <div className="border-b bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm animate-slide-in-from-top" style={{ animationDelay: '0.1s' }}>
+      <div
+        className="border-b bg-white/60 dark:bg-slate-900/60 backdrop-blur-sm animate-slide-in-from-top"
+        style={{ animationDelay: "0.1s" }}
+      >
         <div className="container mx-auto px-6 py-4">
           <div className="flex items-center gap-3">
             <div className="relative flex-1 max-w-md">
@@ -148,10 +159,7 @@ function HomePageContent() {
 
       {/* Main Content - Kanban Board */}
       <main className="container mx-auto px-6 py-6">
-        <KanbanBoard 
-          searchQuery={searchQuery}
-          selectedPriority={selectedPriority}
-        />
+        <KanbanBoard searchQuery={searchQuery} selectedPriority={selectedPriority} />
       </main>
 
       {/* Create Dialog */}

@@ -26,13 +26,17 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const { login: authLogin } = useAuth();
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>();
 
   const onSubmit = async (data: LoginForm) => {
     setIsLoading(true);
     try {
       const result = await login(data);
-      
+
       if (result.requiresTwoFactor) {
         setRequires2FA(true);
         setUserId(result.data?.userId || "");
@@ -67,11 +71,11 @@ export default function LoginPage() {
   const handle2FASubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
-    
+
     try {
       const { loginWithTwoFactor } = await import("@/lib/auth");
       const result = await loginWithTwoFactor(userId, twoFactorCode);
-      
+
       if (result.success && result.data?.user) {
         authLogin(result.data.user);
         toast({
@@ -101,7 +105,7 @@ export default function LoginPage() {
       {/* Left side - Branding */}
       <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-700 p-12 flex-col justify-between relative overflow-hidden animate-fade-in">
         <div className="absolute inset-0 bg-grid-white/10 bg-[size:30px_30px]" />
-        
+
         {/* Decorative illustrations */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute top-20 left-10 w-64 h-64">
@@ -125,7 +129,7 @@ export default function LoginPage() {
             />
           </div>
         </div>
-        
+
         <div className="relative z-10">
           <div className="flex items-center gap-3 text-white mb-8">
             <div className="p-2 bg-white/20 backdrop-blur rounded-lg">
@@ -134,7 +138,7 @@ export default function LoginPage() {
             <h1 className="text-3xl font-bold">TaskFlow</h1>
           </div>
         </div>
-        
+
         <div className="relative z-10 space-y-6">
           <div className="flex items-start gap-4 text-white/90">
             <Sparkles className="h-6 w-6 mt-1 flex-shrink-0" />
@@ -164,14 +168,15 @@ export default function LoginPage() {
             </div>
           </div>
         </div>
-        
-        <div className="relative z-10 text-white/60 text-sm">
-          © 2025 TaskFlow.
-        </div>
+
+        <div className="relative z-10 text-white/60 text-sm">© 2025 TaskFlow.</div>
       </div>
 
       {/* Right side - Login form */}
-      <div className="flex-1 flex items-center justify-center p-8 bg-background animate-fade-in" style={{ animationDelay: '0.1s' }}>
+      <div
+        className="flex-1 flex items-center justify-center p-8 bg-background animate-fade-in"
+        style={{ animationDelay: "0.1s" }}
+      >
         <div className="w-full max-w-md space-y-8">
           <div className="text-center">
             <div className="lg:hidden flex items-center justify-center gap-2 mb-6">
@@ -179,9 +184,7 @@ export default function LoginPage() {
               <h1 className="text-2xl font-bold">TaskFlow</h1>
             </div>
             <h2 className="text-3xl font-bold tracking-tight">Welcome back</h2>
-            <p className="mt-2 text-muted-foreground">
-              Sign in to your account to continue
-            </p>
+            <p className="mt-2 text-muted-foreground">Sign in to your account to continue</p>
           </div>
 
           {!requires2FA ? (
@@ -272,4 +275,3 @@ export default function LoginPage() {
     </div>
   );
 }
-

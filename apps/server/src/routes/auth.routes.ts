@@ -26,4 +26,3 @@ router.post("/2fa/verify", authenticate, verifyTwoFactor);
 router.post("/2fa/disable", authenticate, disableTwoFactor);
 
 export default router;
-

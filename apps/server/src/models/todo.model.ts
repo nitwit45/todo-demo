@@ -61,4 +61,3 @@ todoSchema.index({ user: 1, createdAt: -1 });
 todoSchema.index({ user: 1, priority: 1 });
 
 export const TodoModel = mongoose.model<ITodoDocument>("Todo", todoSchema);
-
