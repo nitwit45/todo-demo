@@ -1,7 +1,7 @@
 {
-  "installCommand": "npm install -g pnpm@8 && pnpm install",
-  "buildCommand": "cd apps/client && pnpm build",
-  "devCommand": "cd apps/client && pnpm dev",
+  "installCommand": "npm install -g pnpm@8 && pnpm install --filter client...",
+  "buildCommand": "pnpm --filter client build",
+  "devCommand": "pnpm --filter client dev",
   "outputDirectory": "apps/client/.next",
   "framework": "nextjs"
 }
