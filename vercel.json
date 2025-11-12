@@ -1,13 +1,8 @@
 {
-  "buildCommand": "cd ../.. && pnpm install && pnpm build:client",
+  "installCommand": "pnpm install --frozen-lockfile",
+  "buildCommand": "pnpm build:client",
+  "devCommand": "pnpm dev:client",
   "outputDirectory": "apps/client/.next",
-  "devCommand": "cd apps/client && pnpm dev",
-  "installCommand": "pnpm install",
-  "framework": "nextjs",
-  "git": {
-    "deploymentEnabled": {
-      "main": true
-    }
-  }
+  "framework": "nextjs"
 }
 

@@ -15,14 +15,21 @@ if ! command -v vercel &> /dev/null; then
     npm install -g vercel@latest
 fi
 
+# Build the validation package first
+echo "📦 Building validation package..."
+cd packages/validation
+pnpm build
+cd ../..
+
+# Deploy from client directory
 cd apps/client
 
 if [ "$ENVIRONMENT" = "production" ]; then
     echo "🌍 Deploying to production..."
-    vercel --prod
+    vercel --prod --yes
 else
     echo "👀 Creating preview deployment..."
-    vercel
+    vercel --yes
 fi
 
 echo "✅ Deployment complete!"
