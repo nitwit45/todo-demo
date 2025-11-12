@@ -1,0 +1,28 @@
+[Unit]
+Description=Cloudflare Tunnel for Todo Backend
+After=network.target todo-backend.service
+Wants=todo-backend.service
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/opt/todo/todo-demo
+
+# Use a named tunnel for persistent URL
+# Or use quick tunnel with dynamic URL
+ExecStart=/usr/local/bin/cloudflared tunnel --url http://localhost:5003 --logfile /var/log/cloudflare-tunnel.log
+
+# Restart policy
+Restart=always
+RestartSec=10
+
+# Logging
+StandardOutput=append:/var/log/cloudflare-tunnel-stdout.log
+StandardError=append:/var/log/cloudflare-tunnel-stderr.log
+
+# On start, wait for backend to be ready
+ExecStartPre=/bin/sleep 5
+
+[Install]
+WantedBy=multi-user.target
+
